@@ -47,21 +47,46 @@ public class MainActivity extends AppCompatActivity {
             outputString = "Not a Comma Seperated List of 3 Numbers";
         else {
             int count=0;
+            Float[] floatLengths= new Float[3];
             for (String side : sideLengths) {
-
                 try {
-                    Float temp = Float.parseFloat(side);
-                    outputString += temp.toString() ;
+                    floatLengths[count] = Float.parseFloat(side);
+                    outputString += floatLengths[count].toString() ;
                     if(count++ < sideLengths.length-1)
                             outputString += " | ";
-                } catch (NumberFormatException | NullPointerException nfe) {
+                }
+                catch (NumberFormatException | NullPointerException nfe) {
                     outputString = "Not a Comma Seperated List of 3 Numbers";
                     break;
                 }
             }
+//            if(floatLengths[2]!=null)
+//                if(confirmSanity(floatLengths))
+//                    outputString+= "\n" + classifyTriangle(floatLengths);
+//                else
+//                    outputString+= "\n" + "All Triangle side lengths MUST be greater than zero";
         }
 
         resultsTextView.setText(outputString);
 
+    }
+    private boolean confirmTriangularity(Float sides[]){
+        return sides[0]<sides[1]+sides[2] && sides[1]<sides[0]+sides[2] && sides[2]<sides[0]+sides[1];
+    }
+    private boolean confirmSanity(Float sides[]){
+        return sides[0]>0 && sides[1]>0 && sides[2]>0;
+    }
+    private String classifyTriangle(Float sides[]) {
+        if(!confirmTriangularity(sides))
+            return "-- This is not a valid triangle. One side is longer that the sum of the other two sides --";
+        if(sides[0]==sides[1])
+            if(sides[1]==sides[2])
+                return "--Equalateral--";
+            else
+                return "--Equalateral--";
+        else if(sides[1]==sides[2])
+            return "--Iscoceles--";
+        else
+            return "--Scalene--";
     }
 }
