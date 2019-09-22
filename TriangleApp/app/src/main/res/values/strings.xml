@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">TriangleApp</string>
     <string name="wassupString">Wassup my CPSC 544 squad!</string>
+    <string name="checkNumberButtonString">Check Number</string>
+    <string name="checkInputOutputString">Check input/output by entering a number</string>
+    <string name="enterANumberString">Enter a number and click the button!</string>
+    <string name="enterTheNumberOneString">Enter the number \"1\"</string>
+    <string name="correctString">Absolutely amazing job at following directions. Truly. Amazing. Wow.</string>
+    <string name="incorrectString">My disappointment is immeasurable and my day is ruined.</string>
 </resources>
