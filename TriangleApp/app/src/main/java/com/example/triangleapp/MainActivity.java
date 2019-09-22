@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Finds views in the UI and makes them accessible in code
         resultsTextView = findViewById(R.id.resultsTextView);
-        numberInputEditText = findViewById(R.id.numberInputEditText);
+        numberInputEditText = findViewById(R.id.stringUserInput);
         setupButton();
     }
 
@@ -34,19 +34,34 @@ public class MainActivity extends AppCompatActivity {
         checkNumberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkNumber();
+                displayText();
             }
         });
     }
 
     // Changes resultsTextView based on the user's input
-    private void checkNumber() {
-        if (numberInputEditText.getText().toString().equals(COMPARE_STRING)) {
-            resultsTextView.setText(getResources().getString(R.string.correctString));
-        } else if (numberInputEditText.getText().toString().equals("")) {
-            resultsTextView.setText(getResources().getString(R.string.enterANumberString));
-        } else {
-            resultsTextView.setText(getResources().getString(R.string.incorrectString));
+    private void displayText() {
+        String[] sideLengths = numberInputEditText.getText().toString().split(",");
+        String outputString = "Good input:\n";
+        if ( sideLengths.length!= 3)
+            outputString = "Not a Comma Seperated List of 3 Numbers";
+        else {
+            int count=0;
+            for (String side : sideLengths) {
+
+                try {
+                    Float temp = Float.parseFloat(side);
+                    outputString += temp.toString() ;
+                    if(count++ < sideLengths.length-1)
+                            outputString += " | ";
+                } catch (NumberFormatException | NullPointerException nfe) {
+                    outputString = "Not a Comma Seperated List of 3 Numbers";
+                    break;
+                }
+            }
         }
+
+        resultsTextView.setText(outputString);
+
     }
 }
