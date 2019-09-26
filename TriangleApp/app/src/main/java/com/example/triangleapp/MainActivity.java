@@ -11,6 +11,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     Button checkNumberButton;
+    Button EndButton;
     EditText numberInputEditText;
     TextView resultsTextView;
 
@@ -29,7 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupButton() {
         checkNumberButton = findViewById(R.id.checkNumberButton);
-
+        EndButton = findViewById(R.id.EndButton);
+        EndButton.setText("Stop");
+        EndButton.setVisibility(View.GONE); //comment out to get stop functionality
         // This handles what happens when the button is clicked
         checkNumberButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,10 +40,29 @@ public class MainActivity extends AppCompatActivity {
                 displayText();
             }
         });
+        EndButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stop();
+            }
+        });
     }
-
+    private void stop(){
+        if(EndButton.getText()=="Stop") {
+            resultsTextView.setText("Program Stopped");
+            EndButton.setText("Resume");
+            checkNumberButton.setVisibility(View.GONE);
+            numberInputEditText.setVisibility(View.GONE);
+        }
+        else{
+            resultsTextView.setText("Program Resumed");
+            EndButton.setText("Stop");
+            checkNumberButton.setVisibility(View.VISIBLE);
+            numberInputEditText.setVisibility(View.VISIBLE);
+        }
+    }
     // Changes resultsTextView based on the user's input
-    private void displayText() {
+    private String displayText() {
         String[] sideLengths = numberInputEditText.getText().toString().split(",");
         String outputString = "Good input:\n";
         if ( sideLengths.length!= 3)
@@ -68,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         resultsTextView.setText(outputString);
+        return outputString;
 
     }
     private boolean confirmTriangularity(Float sides[]){
