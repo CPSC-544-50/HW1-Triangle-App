@@ -95,10 +95,12 @@ public class MainActivity extends AppCompatActivity {
     // Changes resultsTextView based on the user's input
     private String displayText() {
         outputString = "Good input:\n";
+
         String input= numberInputEditText.getText().toString();
         inputHistory.add(input);
         inputPointer++;
         String[] sideLengths = input.split(",");
+
         if (validateInputs(sideLengths)) {
             outputString+= "\n" + classifyTriangle(floatLengths);
         }
