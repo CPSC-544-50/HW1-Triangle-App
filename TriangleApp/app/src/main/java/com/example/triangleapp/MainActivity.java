@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
+//import com.google.android.material.floatingactionbutton;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
         String input= numberInputEditText.getText().toString();
         inputHistory.add(input);
-        inputPointer++;
+        inputPointer=inputHistory.size();
         String[] sideLengths = input.split(",");
 
         if (validateInputs(sideLengths)) {
