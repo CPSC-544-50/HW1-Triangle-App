@@ -94,15 +94,14 @@ public class MainActivity extends AppCompatActivity {
     }
     // Changes resultsTextView based on the user's input
     private String displayText() {
-        outputString = "Good input:\n";
-
+        outputString="";
         String input= numberInputEditText.getText().toString();
         inputHistory.add(input);
         inputPointer=inputHistory.size();
         String[] sideLengths = input.split(",");
 
         if (validateInputs(sideLengths)) {
-            outputString+= "\n" + classifyTriangle(floatLengths);
+            outputString+= classifyTriangle(floatLengths);
         }
         resultsTextView.setText(outputString);
         return outputString;
@@ -110,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean validateInputs(String[] sideLengths) {
         switch(sideLengths.length){
-
             case 1:
                 try {
                     Float.parseFloat(sideLengths[0]);
@@ -134,18 +132,20 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             case 3:
                 int count=0;
+                outputString+="[";
                 for (String side : sideLengths) {
                     try {
                         floatLengths[count] = Float.parseFloat(side);
                         outputString += floatLengths[count].toString() ;
                         if(count++ < sideLengths.length-1)
-                            outputString += " | ";
+                            outputString += ", ";
                     }
                     catch (NumberFormatException | NullPointerException nfe) {
                         outputString = "Not a Comma Separated List of 3 Numbers";
                         return false;
                     }
                 }
+                outputString+="] =";
 
                 if(confirmSanity(floatLengths)) {
                     return true;
@@ -173,14 +173,14 @@ public class MainActivity extends AppCompatActivity {
             return "-- This is not a valid triangle. One side is longer (or equal) that the sum of the other two sides --";
         if(Float.compare(sides[0],sides[1]) == 0) {
             if (Float.compare(sides[1],sides[2]) == 0)
-                return "--Equilateral--";
+                return "Equilateral";
             else
                 return "--Isosceles--";
         } else if(Float.compare(sides[1],sides[2]) == 0) {
-            return "--Isosceles--";
+            return "Isosceles";
         }
         else {
-            return "--Scalene--";
+            return "Scalene";
         }
     }
 }
