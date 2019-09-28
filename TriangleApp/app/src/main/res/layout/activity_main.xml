@@ -122,7 +122,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="26dp"
-        android:text="@string/enter_three_numbers"
+        android:text="@string/values_for_triangleapp"
         android:textColor="@color/colorLightGray"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"

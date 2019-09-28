@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
     private void displayText() {
         input = numberInputEditText.getText().toString();
         inputHistory.add(input);
+        input = input.replaceAll("[\\[\\](){}]","");
         inputPointer=inputHistory.size();
         String[] sideLengths = input.split(",");
 
@@ -195,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String formattedInputValues(boolean showInput) {
         if (showInput) {
-            return "Input: Values for TriangleApp?: " + input + "\n";
+            return "Input: Values for TriangleApp?: " + inputHistory.get(inputHistory.size()-1) + "\n";
         } else {
             // show output
             return "Output: [" + input + "] = ";
