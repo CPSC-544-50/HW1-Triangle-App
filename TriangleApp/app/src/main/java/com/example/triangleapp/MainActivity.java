@@ -131,6 +131,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (validateInputs(sideLengths)) {
             outputString+= classifyTriangle(floatLengths) + "\n";
+            resultsTextView.setTextColor(getResources().getColor(R.color.colorLightGray));
+        } else {
+            resultsTextView.setTextColor(Color.RED);
         }
         resultsTextView.setText(outputString);
         outputString="";
@@ -142,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
             case 1:
                 try {
                     Float.parseFloat(sideLengths[0]);
+
                 }
                 catch (NumberFormatException | NullPointerException nfe) {
                     outputString += "You need to use commas to separate the three values\n\n";
@@ -162,28 +166,40 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 3:
                 int count=0;
-                outputString+="[";
+                String formattedUserInput = "[";
                 for (String side : sideLengths) {
                     try {
                         floatLengths[count] = Float.parseFloat(side);
-                        outputString += floatLengths[count].toString() ;
+                        formattedUserInput += floatLengths[count].toString() ;
                         if(count++ < sideLengths.length-1)
-                            outputString += ", ";
+                            formattedUserInput += ", ";
                     }
                     catch (NumberFormatException | NullPointerException nfe) {
                         outputString = "Not a comma-separated list of three numbers. Please use the format xx,xx,xx\n\n";
-                        valid = false;
-                        break;
+                        return false;
                     }
                 }
-                if (valid) {
-                    outputString += "] = ";
-                }
+                formattedUserInput += "] = ";
 
-                if(valid && !confirmSanity(floatLengths)) {
-                    outputString = "All Triangle side lengths MUST be greater than zero\n\n";
+                if(!confirmSanity(floatLengths)) {
+                    outputString += "All Triangle side lengths must be greater than zero\n\n";
                     valid = false;
                 }
+
+                if(!confirmUpperBound(floatLengths)) {
+                    outputString += "All Triangle side lengths cannot be greater than 100\n\n";
+                    valid = false;
+                }
+
+                if(!confirmTriangularity(floatLengths)) {
+                    outputString += "This is not a valid triangle. One side is longer (or equal) that the sum of the other two sides\n\n";
+                    valid = false;
+                }
+
+                if(valid) {
+                    outputString = formattedUserInput;
+                }
+
                 break;
             default:
                 outputString += "You have more than three values entered\n\n";
@@ -201,12 +217,11 @@ public class MainActivity extends AppCompatActivity {
         return sides[0]>0 && sides[1]>0 && sides[2]>0;
     }
 
-    private String classifyTriangle(Float sides[]) {
-        if(!confirmTriangularity(sides)) {
-            outputString = "";
-            return "This is not a valid triangle. One side is longer (or equal) that the sum of the other two sides.\n\n";
-        }
+    private boolean confirmUpperBound(Float sides[]){
+        return sides[0]<=100 && sides[1]<=100 && sides[2]<=100;
+    }
 
+    private String classifyTriangle(Float sides[]) {
         if(Float.compare(sides[0],sides[1]) == 0) {
             if (Float.compare(sides[1],sides[2]) == 0)
                 return "Equilateral";
