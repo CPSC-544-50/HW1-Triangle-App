@@ -4,54 +4,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorSlate"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Three Comma-Seperated Numbers Test"
+        android:text="@string/triangle_type_test"
+        android:textColor="@color/colorLightGray"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.101" />
+        app:layout_constraintVertical_bias="0.051" />
 
     <EditText
         android:id="@+id/stringUserInput"
-        android:layout_width="383dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="290dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="@color/colorLightGray"
+        android:textCursorDrawable="@drawable/drawable_purple_cursor"
         android:ems="10"
-        android:gravity="center"
-        android:hint="Three Comma-Seperated Numbers (Ex: 2, 3, 2)"
+        android:hint="@string/example"
+
         android:inputType="textShortMessage"
         android:singleLine="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
+        android:textColor="@color/colorLightGray"
+        android:textColorHint="@color/colorLightGray"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
         android:id="@+id/EndButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="130dp"
+        android:background="@drawable/round_button"
         android:text="Stop"
+        android:textColor="@color/colorLightGray"
         app:layout_constraintBottom_toTopOf="@+id/resultsTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stringUserInput"
-        app:layout_constraintVertical_bias="0.206" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/checkNumberButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="164dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/round_button"
         android:text="Process Text"
+        android:textColor="@color/colorLightGray"
         app:layout_constraintBottom_toTopOf="@+id/EndButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,10 +72,11 @@
 
     <TextView
         android:id="@+id/resultsTextView"
-        android:layout_width="208dp"
-        android:layout_height="154dp"
-        android:layout_marginBottom="208dp"
+        android:layout_width="266dp"
+        android:layout_height="147dp"
+        android:layout_marginBottom="204dp"
         android:gravity="center"
+        android:textColor="@color/colorLightGray"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -74,18 +87,44 @@
         android:id="@+id/UpButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="126dp"
         android:clickable="true"
+        app:backgroundTint="@color/colorPurple"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/arrow_up_float"
-        tools:layout_editor_absoluteY="177dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/arrow_up_float" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/DownButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
+        app:backgroundTint="@color/colorPurple"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/UpButton"
         app:srcCompat="@android:drawable/arrow_down_float" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="61dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleTextView"
+        app:srcCompat="@mipmap/ic_gradient_triangle_foreground" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="323dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="26dp"
+        android:text="@string/enter_three_numbers"
+        android:textColor="@color/colorLightGray"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,9 +2,16 @@ package com.example.triangleapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.Html;
+import android.text.TextWatcher;
 import android.util.Log;
 import java.util.*;
+
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     String outputString = "";
     Float[] floatLengths= new Float[3];
 
-    final static String COMPARE_STRING = "1";
     private List<String> inputHistory = new ArrayList<String>();
     private int inputPointer=0;
     @Override
@@ -32,11 +38,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Finds views in the UI and makes them accessible in code
-        resultsTextView = findViewById(R.id.resultsTextView);
         numberInputEditText = findViewById(R.id.stringUserInput);
+        resultsTextView = findViewById(R.id.resultsTextView);
         UpButton = findViewById(R.id.UpButton);
         DownButton = findViewById(R.id.DownButton);
         setupButton();
+
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorBlue)));
+        getSupportActionBar().setTitle((Html.fromHtml("<font color=\"#dbddeb\">" + getString(R.string.app_name) + "</font>")));
     }
 
     private void setupButton() {
@@ -81,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
             EndButton.setText("Resume");
             checkNumberButton.setVisibility(View.GONE);
             numberInputEditText.setVisibility(View.GONE);
+            UpButton.hide();
+            DownButton.hide();
             inputPointer=0;
             inputHistory = new ArrayList<String>();
             numberInputEditText.setText("");
@@ -88,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
         else{
             resultsTextView.setText("Program Resumed");
             EndButton.setText("Stop");
+            UpButton.show();
+            DownButton.show();
             checkNumberButton.setVisibility(View.VISIBLE);
             numberInputEditText.setVisibility(View.VISIBLE);
         }
@@ -170,17 +183,17 @@ public class MainActivity extends AppCompatActivity {
 
     private String classifyTriangle(Float sides[]) {
         if(!confirmTriangularity(sides))
-            return "-- This is not a valid triangle. One side is longer (or equal) that the sum of the other two sides --";
+            return "\nThis is not a valid triangle. One side is longer (or equal) that the sum of the other two sides.";
         if(Float.compare(sides[0],sides[1]) == 0) {
             if (Float.compare(sides[1],sides[2]) == 0)
-                return "Equilateral";
+                return " Equilateral";
             else
-                return "--Isosceles--";
+                return " Isosceles";
         } else if(Float.compare(sides[1],sides[2]) == 0) {
-            return "Isosceles";
+            return " Isosceles";
         }
         else {
-            return "Scalene";
+            return " Scalene";
         }
     }
 }
