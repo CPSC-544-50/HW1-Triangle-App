@@ -1,7 +1,9 @@
 package com.example.triangleapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import java.util.*;
 
 import android.util.TypedValue;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,6 +24,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    ConstraintLayout mainLayout;
     Button checkNumberButton;
     Button EndButton;
     com.google.android.material.floatingactionbutton.FloatingActionButton UpButton;
@@ -46,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorBlue)));
         getSupportActionBar().setTitle((Html.fromHtml("<font color=\"#dbddeb\">" + getString(R.string.app_name) + "</font>")));
+
+        // Use this to hide the keyboard
+        mainLayout = findViewById(R.id.main_layout);
     }
 
     private void setupButton() {
@@ -56,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         checkNumberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideKeyboard();
                 displayText();
             }
         });
@@ -84,7 +92,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0);
+    }
+
     private void stop(){
+        hideKeyboard();
+
         if(EndButton.getText()=="Stop") {
             resultsTextView.setText("Program Stopped");
             EndButton.setText("Resume");
@@ -105,44 +121,45 @@ public class MainActivity extends AppCompatActivity {
             numberInputEditText.setVisibility(View.VISIBLE);
         }
     }
+
     // Changes resultsTextView based on the user's input
-    private String displayText() {
-        outputString="";
+    private void displayText() {
         String input= numberInputEditText.getText().toString();
         inputHistory.add(input);
         inputPointer=inputHistory.size();
         String[] sideLengths = input.split(",");
 
         if (validateInputs(sideLengths)) {
-            outputString+= classifyTriangle(floatLengths);
+            outputString+= classifyTriangle(floatLengths) + "\n";
         }
         resultsTextView.setText(outputString);
-        return outputString;
+        outputString="";
     }
 
     private boolean validateInputs(String[] sideLengths) {
+        boolean valid = true;
         switch(sideLengths.length){
             case 1:
                 try {
                     Float.parseFloat(sideLengths[0]);
                 }
                 catch (NumberFormatException | NullPointerException nfe) {
-                    outputString = "You need to use commas as delimiters";
-                    return false;
+                    outputString += "You need to use commas to separate the three values\n\n";
                 }
-                outputString = "You need two more inputs";
-                return false;
+                outputString += "You need two more values\n\n";
+                valid = false;
+                break;
             case 2:
                 try {
                     Float.parseFloat(sideLengths[0]);
                     Float.parseFloat(sideLengths[1]);
                 }
                 catch (NumberFormatException | NullPointerException nfe) {
-                    outputString = "Not a Comma Separated List of 3 Numbers";
-                    return false;
+                    outputString += "Not a comma-separated list of three numbers. Please use the format xx,xx,xx\n\n";
                 }
-                outputString = "You need one more input";
-                return false;
+                outputString += "You need one more value\n\n";
+                valid = false;
+                break;
             case 3:
                 int count=0;
                 outputString+="[";
@@ -154,23 +171,26 @@ public class MainActivity extends AppCompatActivity {
                             outputString += ", ";
                     }
                     catch (NumberFormatException | NullPointerException nfe) {
-                        outputString = "Not a Comma Separated List of 3 Numbers";
-                        return false;
+                        outputString = "Not a comma-separated list of three numbers. Please use the format xx,xx,xx\n\n";
+                        valid = false;
+                        break;
                     }
                 }
-                outputString+="] =";
-
-                if(confirmSanity(floatLengths)) {
-                    return true;
-                } else {
-                    outputString+= "\n" + "All Triangle side lengths MUST be greater than zero";
-                    return false;
+                if (valid) {
+                    outputString += "] = ";
                 }
 
+                if(valid && !confirmSanity(floatLengths)) {
+                    outputString = "All Triangle side lengths MUST be greater than zero\n\n";
+                    valid = false;
+                }
+                break;
             default:
-                outputString = "You have more than 3 inputs";
-                return false;
+                outputString += "You have more than three values entered\n\n";
+                valid = false;
+                break;
         }
+        return valid;
     }
 
     private boolean confirmTriangularity(Float sides[]){
@@ -182,18 +202,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String classifyTriangle(Float sides[]) {
-        if(!confirmTriangularity(sides))
-            return "\nThis is not a valid triangle. One side is longer (or equal) that the sum of the other two sides.";
+        if(!confirmTriangularity(sides)) {
+            outputString = "";
+            return "This is not a valid triangle. One side is longer (or equal) that the sum of the other two sides.\n\n";
+        }
+
         if(Float.compare(sides[0],sides[1]) == 0) {
             if (Float.compare(sides[1],sides[2]) == 0)
-                return " Equilateral";
+                return "Equilateral";
             else
                 return " Isosceles";
         } else if(Float.compare(sides[1],sides[2]) == 0) {
-            return " Isosceles";
+            return "Isosceles";
         }
         else {
-            return " Scalene";
+            return "Scalene";
         }
     }
 }
