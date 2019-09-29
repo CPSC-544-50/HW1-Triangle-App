@@ -124,7 +124,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Changes resultsTextView based on the user's input
-    private void displayText() {
+    public boolean displayText() {
+        boolean validAnswer = true;
         input = numberInputEditText.getText().toString();
         inputHistory.add(input);
         input = input.replaceAll("[\\[\\](){}]","");
@@ -136,9 +137,13 @@ public class MainActivity extends AppCompatActivity {
             resultsTextView.setTextColor(getResources().getColor(R.color.colorLightGray));
         } else {
             resultsTextView.setTextColor(Color.RED);
+            validAnswer = false;
         }
         resultsTextView.setText(outputString);
         outputString="";
+
+        // used for Unit Testing
+        return validAnswer;
     }
 
     private boolean validateInputs(String[] sideLengths) {
