@@ -150,12 +150,12 @@ public class MainActivity extends AppCompatActivity {
         boolean valid = true;
         switch(sideLengths.length){
             case 0:
-                outputString = formattedInputValues(true) + formattedInputValues(false);
+                outputString = formattedInputValues() + "invalid input\n\n";
                 outputString += "Please enter a comma-separated list of three numbers. Use the format xx,xx,xx\n\n";
                 valid = false;
                 break;
             case 1:
-                outputString = formattedInputValues(true) + formattedInputValues(false);
+                outputString = formattedInputValues() + "invalid input\n\n";
                 outputString += checkForValidEntry(sideLengths[0], 0);
 
                 outputString += "You need two more values\n\n";
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                 valid = false;
                 break;
             case 2:
-                outputString = formattedInputValues(true) + formattedInputValues(false);
+                outputString = formattedInputValues() + "invalid input\n\n";
                 outputString += checkForValidEntry(sideLengths[0], 0);
                 outputString += checkForValidEntry(sideLengths[1], 1);
 
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
                 valid = false;
                 break;
             case 3:
-                outputString = formattedInputValues(true) + formattedInputValues(false);
+                outputString = formattedInputValues();
                 String errorMessage = "";
 
                 errorMessage += checkForValidEntry(sideLengths[0], 0);
@@ -180,18 +180,21 @@ public class MainActivity extends AppCompatActivity {
                 errorMessage += checkForValidEntry(sideLengths[2], 2);
 
                 if(errorMessage.length() > 0) {
-                    outputString += errorMessage + "Not a comma-separated list of three numbers. Please use the format xx,xx,xx\n\n";
+                    outputString += "invalid input\n\n" + errorMessage;
+                    if (errorMessage.contains("needs to be a number")) {
+                        outputString += "Not a comma-separated list of three numbers. Please use the format xx,xx,xx\n\n";
+                    }
                     return false;
                 }
 
                 setFloatLengths(sideLengths);
                 if(!confirmTriangularity(floatLengths)) {
-                    outputString += "This is not a valid triangle. One side is longer (or equal) that the sum of the other two sides\n\n";
+                    outputString +=  "invalid input\n\n" + "This is not a valid triangle. One side is longer (or equal) that the sum of the other two sides\n\n";
                     valid = false;
                 }
                 break;
             default:
-                outputString = formattedInputValues(true) + formattedInputValues(false);
+                outputString = formattedInputValues() + "invalid input\n\n";
                 outputString += "You have more than three values entered\n\n";
                 valid = false;
                 break;
@@ -199,13 +202,8 @@ public class MainActivity extends AppCompatActivity {
         return valid;
     }
 
-    private String formattedInputValues(boolean showInput) {
-        if (showInput) {
-            return "Input: Values for TriangleApp?: " + inputHistory.get(inputHistory.size()-1) + "\n";
-        } else {
-            // show output
-            return "Output: [" + input + "] = ";
-        }
+    private String formattedInputValues() {
+        return "[" + input + "] = ";
     }
 
     private void setFloatLengths(String[] sideLengths) {
@@ -243,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
         if (number < 1 && number >= 0) {
             errorMessage += entryIndex + "needs to be greater than or equal to 1\n\n";
         } else if (number < 0) {
-            errorMessage += entryIndex + "needs to be a positive number\n\n";
+            errorMessage += entryIndex + "needs to be a positive value\n\n";
         } else if (number > 100) {
             errorMessage += entryIndex + "needs to be less than or equal to 100\n\n";
         }
